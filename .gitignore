@@ -1,0 +1,5 @@
+*.vlb
+*.o
+Debug
+*.deployproj
+*.res
