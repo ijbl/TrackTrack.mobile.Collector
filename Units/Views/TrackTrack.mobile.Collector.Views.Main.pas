@@ -9,29 +9,17 @@ uses
   FMX.ListBox, System.Sensors, System.Sensors.Components, Generics.Collections,
   FMX.TabControl, System.Messaging, FMX.MediaLibrary, FMX.Platform,
   System.Math.Vectors, FMX.Controls3D, System.Actions, FMX.ActnList,
-  FMX.StdActns, FMX.MediaLibrary.Actions;
+  FMX.StdActns, FMX.MediaLibrary.Actions, TrackTrack.mobile.Collector.Interfaces.TrackTrack,
+  TrackTrack.mobile.Collector.Interfaces.Proxy.TrackTrack, SynCrossPlatformREST;
 
 type
-  TGPSPoint = class
-  private
-    FLatitude: Double;
-    FLongitude: Double;
-    FAltitude: Double;
-    FHeading: Double;
-  public
-    property Latitude: Double read FLatitude write FLatitude;
-    property Longitude: Double read FLongitude write FLongitude;
-    property Altitude: Double read FAltitude write FAltitude;
-    property Heading: Double read FHeading write FHeading;
-  end;
-
   TFrmMain = class(TForm)
     Header: TToolBar;
     HeaderLabel: TLabel;
     GridPanelLayout1: TGridPanelLayout;
     GridPanelLayout2: TGridPanelLayout;
     Label1: TLabel;
-    ComboBox1: TComboBox;
+    comboRoute: TComboBox;
     Label2: TLabel;
     Edit1: TEdit;
     Label3: TLabel;
@@ -51,22 +39,28 @@ type
     procedure ActiveButtonClick(Sender: TObject);
     procedure StopButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
     procedure CleanButtonClick(Sender: TObject);
     procedure LocationSensorLocationChanged(Sender: TObject; const OldLocation,
       NewLocation: TLocationCoord2D);
     procedure InactiveButtonClick(Sender: TObject);
     procedure TakePhotoFromCameraActionDidFinishTaking(Image: TBitmap);
     procedure ImageViewerClick(Sender: TObject);
+    procedure SaveButtonClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
-    FPointList: TList<TGPSPoint>;
-    FStopsList: TList<TGPSPoint>;
-    FMarkerList: TList<TMapMarker>;
+    FTrackTrack: TTrackTrackInterface;
+    FPointList: array of TRoutePoint;
+    FStopsList: array of TRouteStop;
+    FMarkerList: array of TMapMarker;
 
     procedure ActiveCloseDialog(const AResult: TModalResult);
     procedure InactiveCloseDialog(const AResult: TModalResult);
     procedure TerminalCloseDialog(const AResult: TModalResult);
     procedure CleanCloseDialog(const AResult: TModalResult);
+    procedure SaveCloseDialog(const AResult: TModalResult);
+    procedure SaveConfirmCloseDialog(const AResult: TModalResult);
+    procedure LoadRoutes;
+    procedure FreePoints;
   public
     { Public declarations }
   end;
@@ -107,21 +101,59 @@ var
 begin
   if AResult = mrYes then
   begin
-    Self.FPointList.Clear;
-    Self.FStopsList.Clear;
+    Self.FreePoints;
+    Self.FPointList := nil;
+    Self.FStopsList := nil;
+    Self.FMarkerList := nil;
     Self.PointCountLabel.Text := '0 puntos recolectados';
-
-    for I := 0 to Self.FMarkerList.Count - 1 do
-      Self.FMarkerList[I].DisposeOf;
-    Self.FMarkerList.Clear;
   end;
 end;
 
 procedure TFrmMain.FormCreate(Sender: TObject);
 begin
-  Self.FPointList := TList<TGPSPoint>.Create;
-  Self.FStopsList := TList<TGPSPoint>.Create;
-  Self.FMarkerList := TList<TMapMarker>.Create;
+  Self.FTrackTrack := TTrackTrackInterface.Create;
+  Self.LoadRoutes;
+end;
+
+procedure TFrmMain.FormDestroy(Sender: TObject);
+var
+  I: Integer;
+begin
+  Self.FTrackTrack.Free;
+  Self.FreePoints;
+  Self.FPointList := nil;
+  Self.FStopsList := nil;
+  Self.FMarkerList := nil;
+end;
+
+procedure TFrmMain.FreePoints;
+var
+  I: Integer;
+begin
+  for I := 0 to Length(Self.FPointList) - 1 do
+    Self.FPointList[I].Free;
+  for I := 0 to Length(Self.FStopsList) - 1 do
+    Self.FStopsList[I].Free;
+  for I := 0 to Length(Self.FMarkerList) - 1 do
+    Self.FMarkerList[I].DisposeOf;
+end;
+
+procedure TFrmMain.SaveButtonClick(Sender: TObject);
+begin
+  TDialogService.MessageDialog('¿Guardar?', TMsgDlgType.mtConfirmation, mbYesNo, TMsgDlgBtn.mbYes, 0, Self.SaveCloseDialog);
+end;
+
+procedure TFrmMain.SaveCloseDialog(const AResult: TModalResult);
+begin
+  if Self.FTrackTrack.ExistsPointsForRoute(Self.comboRoute.ItemIndex) then
+    TDialogService.MessageDialog('Ya existen puntos para esta ruta.¿Sobrescribir?', TMsgDlgType.mtConfirmation, mbYesNo, TMsgDlgBtn.mbYes, 0, Self.SaveConfirmCloseDialog)
+  else
+    Self.FTrackTrack.SaveRoutePoints(Self.FPointList, Self.FStopsList);
+end;
+
+procedure TFrmMain.SaveConfirmCloseDialog(const AResult: TModalResult);
+begin
+  Self.FTrackTrack.SaveRoutePoints(Self.FPointList, Self.FStopsList);
 end;
 
 procedure TFrmMain.StopButtonClick(Sender: TObject);
@@ -137,28 +169,26 @@ end;
 
 procedure TFrmMain.TerminalCloseDialog(const AResult: TModalResult);
 var
-  Point: TGPSPoint;
+  Point: TRouteStop;
 begin
   if AResult = mrYes then
   begin
-    Point := TGPSPoint.Create;
-    Self.FStopsList.Add(Point);
-    with Point do
-    begin
-      Latitude := Self.LocationSensor.Sensor.Latitude;
-      Longitude := Self.LocationSensor.Sensor.Longitude;
-      Altitude := Self.LocationSensor.Sensor.Altitude;
-      Heading := Self.LocationSensor.Sensor.TrueHeading;
+    Point := TRouteStop.Create;
+    try
+      with Point do
+      begin
+        Latitude := Self.LocationSensor.Sensor.Latitude;
+        Longitude := Self.LocationSensor.Sensor.Longitude;
+        Altitude := Self.LocationSensor.Sensor.Altitude;
+        Heading := Self.LocationSensor.Sensor.TrueHeading;
+      end;
+      SetLength(Self.FStopsList, Length(Self.FStopsList) + 1);
+      Self.FStopsList[Length(Self.FStopsList) - 1] := Point;
+    except
+      Point.Free;
+      raise;
     end;
   end;
-end;
-
-procedure TFrmMain.FormDestroy(Sender: TObject);
-begin
-  Self.FPointList.Clear;
-  Self.FPointList.Free;
-  Self.FStopsList.Clear;
-  Self.FStopsList.Free;
 end;
 
 procedure TFrmMain.ImageViewerClick(Sender: TObject);
@@ -181,35 +211,67 @@ begin
   end;
 end;
 
+procedure TFrmMain.LoadRoutes;
+var
+  Route: TRoute;
+  Zone: TZone;
+begin
+  Route := Self.FTrackTrack.GetAllRoutes;
+  try
+    Self.comboRoute.Clear;
+    while Route.FillOne do
+    begin
+      Zone := Self.FTrackTrack.GetZoneById(Route.Zone);
+      try
+        Self.comboRoute.Items.Add(Format('%s (Zona %s)', [Route.Name, Zone.Name]));
+      finally
+        Zone.Free;
+      end;
+    end;
+  finally
+    Route.Free;
+  end;
+end;
+
 procedure TFrmMain.LocationSensorLocationChanged(Sender: TObject;
   const OldLocation, NewLocation: TLocationCoord2D);
 var
   Position: TMapCoordinate;
   MarkerDesc: TMapMarkerDescriptor;
+  Point: TRoutePoint;
 begin
-  Self.FPointList.Add(TGPSPoint.Create);
-  with Self.FPointList.Last do
-  begin
-    Latitude := NewLocation.Latitude;
-    Longitude := NewLocation.Longitude;
-    Altitude := Self.LocationSensor.Sensor.Altitude;
-    Heading := Self.LocationSensor.Sensor.TrueHeading;
+  Point := TRoutePoint.Create;
+  try
+    with Point do
+    begin
+      Latitude := NewLocation.Latitude;
+      Longitude := NewLocation.Longitude;
+      Altitude := Self.LocationSensor.Sensor.Altitude;
+      Heading := Self.LocationSensor.Sensor.TrueHeading;
+    end;
+    Self.PointCountLabel.Text := Format('%d puntos recolectados', [Length(Self.FPointList) + 1]);
+
+    Position := TMapCoordinate.Create(NewLocation.Latitude, NewLocation.Longitude);
+    MarkerDesc := TMapMarkerDescriptor.Create(Position);
+    MarkerDesc.Draggable := False;
+    MarkerDesc.Opacity := 0.8;
+    MarkerDesc.Title := 'P' + IntToStr(Length(Self.FPointList) + 1);
+    MarkerDesc.Snippet := Position.ToString;
+    MarkerDesc.Appearance := TMarkerAppearance.Flat;
+    MarkerDesc.Visible := True;
+    SetLength(Self.FMarkerList, Length(Self.FMarkerList) + 1);
+    Self.FMarkerList[Length(Self.FMarkerList) - 1] := Self.MapView.AddMarker(MarkerDesc);
+
+    Self.MapView.Location := Position;
+    Self.MapView.Zoom := 14;
+    Self.MapView.Move;
+
+    SetLength(Self.FPointList, Length(Self.FPointList) + 1);
+    Self.FPointList[Length(Self.FPointList) - 1] := Point;
+  except
+    Point.Free;
+    raise;
   end;
-  Self.PointCountLabel.Text := Format('%d puntos recolectados', [Self.FPointList.Count]);
-
-  Position := TMapCoordinate.Create(NewLocation.Latitude, NewLocation.Longitude);
-  MarkerDesc := TMapMarkerDescriptor.Create(Position);
-  MarkerDesc.Draggable := False;
-  MarkerDesc.Opacity := 0.8;
-  MarkerDesc.Title := 'P' + IntToStr(Self.FPointList.Count);
-  MarkerDesc.Snippet := Position.ToString;
-  MarkerDesc.Appearance := TMarkerAppearance.Flat;
-  MarkerDesc.Visible := True;
-  Self.FMarkerList.Add(Self.MapView.AddMarker(MarkerDesc));
-
-  Self.MapView.Location := Position;
-  Self.MapView.Zoom := 14;
-  Self.MapView.Move;
 end;
 
 end.

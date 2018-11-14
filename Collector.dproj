@@ -299,6 +299,7 @@
         <VerInfo_Build>1</VerInfo_Build>
         <VerInfo_Keys>package=com.tracktrack.$(MSBuildProjectName);label=$(MSBuildProjectName);versionCode=1;versionName=1.0.0;persistent=False;restoreAnyVersion=False;installLocation=auto;largeHeap=False;theme=TitleBar;hardwareAccelerated=true;apiKey=AIzaSyA6PRkvcDptMqyfwT-zBErIq2z6yyna4XE</VerInfo_Keys>
         <EL_Maps>true</EL_Maps>
+        <DCC_UnitSearchPath>C:\Armoni\TrackTrack\db\;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
@@ -331,6 +332,9 @@
             <Form>FrmMain</Form>
             <FormType>fmx</FormType>
         </DCCReference>
+        <DCCReference Include="Units\Interfaces\TrackTrack.mobile.Collector.Interfaces.TrackTrack.pas"/>
+        <DCCReference Include="Units\Misc\TrackTrack.mobile.Collector.Misc.Globals.pas"/>
+        <DCCReference Include="Units\Interfaces\Proxy\TrackTrack.mobile.Collector.Interfaces.Proxy.TrackTrack.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
