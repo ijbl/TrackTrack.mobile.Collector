@@ -25,307 +25,384 @@ object FrmMain: TFrmMain
       Text = 'TrackTrack - Collector'
     end
   end
-  object GridPanelLayout1: TGridPanelLayout
+  object TabControl1: TTabControl
     Align = Client
+    FullSize = True
     Size.Width = 384.000000000000000000
     Size.Height = 519.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 2
-    ColumnCollection = <
-      item
-        Value = 100.000000000000000000
-      end>
-    ControlCollection = <
-      item
-        Column = 0
-        Control = GridPanelLayout2
-        Row = 0
-      end
-      item
-        Column = 0
-        Control = MapView
-        Row = 1
-      end>
-    RowCollection = <
-      item
-        Value = 59.945998322170110000
-      end
-      item
-        Value = 40.054001677829890000
-      end
-      item
-        SizeStyle = Auto
-      end>
-    object GridPanelLayout2: TGridPanelLayout
-      Align = Client
-      Size.Width = 384.000000000000000000
-      Size.Height = 311.119720458984400000
+    TabHeight = 49.000000000000000000
+    TabIndex = 1
+    TabOrder = 1
+    TabPosition = PlatformDefault
+    Sizes = (
+      384s
+      470s
+      384s
+      470s)
+    object TabItem1: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = False
+      Size.Width = 192.000000000000000000
+      Size.Height = 49.000000000000000000
       Size.PlatformDefault = False
+      StyleLookup = 'tabitemtoprated'
       TabOrder = 0
-      ColumnCollection = <
-        item
-          Value = 20.021571324762690000
-        end
-        item
-          Value = 79.978428675237310000
-        end>
-      ControlCollection = <
-        item
-          Column = 0
-          Control = Label1
-          Row = 0
-        end
-        item
-          Column = 1
-          Control = comboRoute
-          Row = 0
-        end
-        item
-          Column = 0
-          Control = Label2
-          Row = 2
-        end
-        item
-          Column = 1
-          Control = Edit1
-          Row = 1
-        end
-        item
-          Column = 0
-          Control = Label3
-          Row = 1
-        end
-        item
-          Column = 1
-          Control = ImageViewer
-          Row = 2
-        end
-        item
-          Column = 0
-          ColumnSpan = 2
-          Control = ButtonsLayout
-          Row = 3
-        end
-        item
-          Column = 0
-          ColumnSpan = 2
-          Control = PointCountLabel
-          Row = 4
-        end>
-      RowCollection = <
-        item
-          Value = 16.199323090752750000
-        end
-        item
-          Value = 16.199323090752750000
-        end
-        item
-          Value = 41.939928457963550000
-        end
-        item
-          Value = 15.979367063241990000
-        end
-        item
-          Value = 9.682058297288961000
-        end
-        item
-          SizeStyle = Auto
-        end>
-      object Label1: TLabel
-        Align = Client
-        Margins.Left = 5.000000000000000000
-        Margins.Top = 5.000000000000000000
-        Margins.Right = 5.000000000000000000
-        Margins.Bottom = 5.000000000000000000
-        Size.Width = 66.882835388183590000
-        Size.Height = 40.399288177490230000
-        Size.PlatformDefault = False
-        Text = 'Ruta:'
-        TabOrder = 0
-      end
-      object comboRoute: TComboBox
-        Align = Client
-        Margins.Left = 5.000000000000000000
-        Margins.Top = 5.000000000000000000
-        Margins.Right = 5.000000000000000000
-        Margins.Bottom = 5.000000000000000000
-        Size.Width = 297.117156982421900000
-        Size.Height = 32.000000000000000000
-        Size.PlatformDefault = False
-        TabOrder = 1
-      end
-      object Label2: TLabel
-        Align = Client
-        Margins.Left = 5.000000000000000000
-        Margins.Top = 5.000000000000000000
-        Margins.Right = 5.000000000000000000
-        Margins.Bottom = 5.000000000000000000
-        Size.Width = 66.882835388183590000
-        Size.Height = 120.483375549316400000
-        Size.PlatformDefault = False
-        Text = 'Foto:'
-        TabOrder = 2
-      end
-      object Edit1: TEdit
-        Touch.InteractiveGestures = [LongTap, DoubleTap]
-        Align = Client
-        TabOrder = 3
-        Margins.Left = 5.000000000000000000
-        Margins.Top = 5.000000000000000000
-        Margins.Right = 5.000000000000000000
-        Margins.Bottom = 5.000000000000000000
-        Size.Width = 297.117156982421900000
-        Size.Height = 32.000000000000000000
-        Size.PlatformDefault = False
-      end
-      object Label3: TLabel
-        Align = Client
-        Margins.Left = 5.000000000000000000
-        Margins.Top = 5.000000000000000000
-        Margins.Right = 5.000000000000000000
-        Size.Width = 66.882835388183590000
-        Size.Height = 45.399288177490230000
-        Size.PlatformDefault = False
-        Text = 'ID:'
-        TabOrder = 4
-      end
-      object ImageViewer: TImageViewer
-        Align = Client
-        Margins.Left = 5.000000000000000000
-        Margins.Top = 5.000000000000000000
-        Margins.Right = 5.000000000000000000
-        Margins.Bottom = 5.000000000000000000
-        Size.Width = 297.117156982421900000
-        Size.Height = 120.483375549316400000
-        Size.PlatformDefault = False
-        TabOrder = 5
-        OnClick = ImageViewerClick
-        ShowScrollBars = False
-        Viewport.Width = 297.100000000000000000
-        Viewport.Height = 120.500000000000000000
-      end
-      object ButtonsLayout: TGridPanelLayout
+      Text = 'Recolectar'
+      ExplicitSize.cx = 50.000000000000000000
+      ExplicitSize.cy = 49.000000000000000000
+      object GridPanelLayout1: TGridPanelLayout
         Align = Client
         Size.Width = 384.000000000000000000
-        Size.Height = 49.714965820312500000
+        Size.Height = 470.000000000000000000
         Size.PlatformDefault = False
-        TabOrder = 6
+        TabOrder = 0
         ColumnCollection = <
           item
-            Value = 20.183945601614830000
-          end
-          item
-            Value = 20.014289704778190000
-          end
-          item
-            Value = 19.928037170006250000
-          end
-          item
-            Value = 19.916878016760760000
-          end
-          item
-            Value = 19.956849506839980000
+            Value = 100.000000000000000000
           end>
         ControlCollection = <
           item
             Column = 0
-            Control = ActiveButton
+            Control = GridPanelLayout2
             Row = 0
           end
           item
-            Column = 1
-            Control = InactiveButton
-            Row = 0
-          end
-          item
-            Column = 2
-            Control = StopButton
-            Row = 0
-          end
-          item
-            Column = 3
-            Control = CleanButton
-            Row = 0
-          end
-          item
-            Column = 4
-            Control = SaveButton
-            Row = 0
+            Column = 0
+            Control = MapView
+            Row = 1
           end>
         RowCollection = <
           item
-            Value = 100.000000000000000000
+            Value = 59.945998322170110000
+          end
+          item
+            Value = 40.054001677829890000
           end
           item
             SizeStyle = Auto
           end>
-        object ActiveButton: TButton
+        object GridPanelLayout2: TGridPanelLayout
           Align = Client
-          Size.Width = 77.506347656250000000
-          Size.Height = 49.714965820312500000
-          Size.PlatformDefault = False
-          TabOrder = 4
-          Text = 'Activo'
-          OnClick = ActiveButtonClick
-        end
-        object InactiveButton: TButton
-          Align = Client
-          Size.Width = 76.854873657226560000
-          Size.Height = 49.714965820312500000
-          Size.PlatformDefault = False
-          TabOrder = 3
-          Text = 'Inactivo'
-          OnClick = InactiveButtonClick
-        end
-        object StopButton: TButton
-          Align = Client
-          Size.Width = 76.523666381835940000
-          Size.Height = 49.714965820312500000
-          Size.PlatformDefault = False
-          TabOrder = 2
-          Text = 'Parada'
-          OnClick = StopButtonClick
-        end
-        object CleanButton: TButton
-          Align = Client
-          Size.Width = 76.480804443359370000
-          Size.Height = 49.714965820312500000
-          Size.PlatformDefault = False
-          TabOrder = 1
-          Text = 'Limpiar'
-          OnClick = CleanButtonClick
-        end
-        object SaveButton: TButton
-          Align = Client
-          Size.Width = 76.634307861328130000
-          Size.Height = 49.714965820312500000
+          Size.Width = 384.000000000000000000
+          Size.Height = 281.746185302734400000
           Size.PlatformDefault = False
           TabOrder = 0
-          Text = 'Guardar'
-          OnClick = SaveButtonClick
+          ColumnCollection = <
+            item
+              Value = 20.021571324762690000
+            end
+            item
+              Value = 79.978428675237310000
+            end>
+          ControlCollection = <
+            item
+              Column = 0
+              Control = Label1
+              Row = 0
+            end
+            item
+              Column = 1
+              Control = comboRoute
+              Row = 0
+            end
+            item
+              Column = 0
+              Control = Label2
+              Row = 2
+            end
+            item
+              Column = 1
+              Control = Edit1
+              Row = 1
+            end
+            item
+              Column = 0
+              Control = Label3
+              Row = 1
+            end
+            item
+              Column = 1
+              Control = ImageViewer
+              Row = 2
+            end
+            item
+              Column = 0
+              ColumnSpan = 2
+              Control = ButtonsLayout
+              Row = 3
+            end
+            item
+              Column = 0
+              ColumnSpan = 2
+              Control = PointCountLabel
+              Row = 4
+            end>
+          RowCollection = <
+            item
+              Value = 16.199323090752750000
+            end
+            item
+              Value = 16.199323090752750000
+            end
+            item
+              Value = 41.939928457963550000
+            end
+            item
+              Value = 15.979367063241990000
+            end
+            item
+              Value = 9.682058297288961000
+            end
+            item
+              SizeStyle = Auto
+            end>
+          object Label1: TLabel
+            Align = Client
+            Margins.Left = 5.000000000000000000
+            Margins.Top = 5.000000000000000000
+            Margins.Right = 5.000000000000000000
+            Margins.Bottom = 5.000000000000000000
+            Size.Width = 66.882835388183590000
+            Size.Height = 35.640975952148440000
+            Size.PlatformDefault = False
+            Text = 'Ruta:'
+            TabOrder = 0
+          end
+          object comboRoute: TComboBox
+            Align = Client
+            Margins.Left = 5.000000000000000000
+            Margins.Top = 5.000000000000000000
+            Margins.Right = 5.000000000000000000
+            Margins.Bottom = 5.000000000000000000
+            Size.Width = 297.117156982421900000
+            Size.Height = 32.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 1
+          end
+          object Label2: TLabel
+            Align = Client
+            Margins.Left = 5.000000000000000000
+            Margins.Top = 5.000000000000000000
+            Margins.Right = 5.000000000000000000
+            Margins.Bottom = 5.000000000000000000
+            Size.Width = 66.882835388183590000
+            Size.Height = 108.164154052734400000
+            Size.PlatformDefault = False
+            Text = 'Foto:'
+            TabOrder = 2
+          end
+          object Edit1: TEdit
+            Touch.InteractiveGestures = [LongTap, DoubleTap]
+            Align = Client
+            TabOrder = 3
+            Margins.Left = 5.000000000000000000
+            Margins.Top = 5.000000000000000000
+            Margins.Right = 5.000000000000000000
+            Margins.Bottom = 5.000000000000000000
+            Size.Width = 297.117156982421900000
+            Size.Height = 32.000000000000000000
+            Size.PlatformDefault = False
+          end
+          object Label3: TLabel
+            Align = Client
+            Margins.Left = 5.000000000000000000
+            Margins.Top = 5.000000000000000000
+            Margins.Right = 5.000000000000000000
+            Size.Width = 66.882835388183590000
+            Size.Height = 40.640975952148440000
+            Size.PlatformDefault = False
+            Text = 'ID:'
+            TabOrder = 4
+          end
+          object ImageViewer: TImageViewer
+            Align = Client
+            Margins.Left = 5.000000000000000000
+            Margins.Top = 5.000000000000000000
+            Margins.Right = 5.000000000000000000
+            Margins.Bottom = 5.000000000000000000
+            Size.Width = 297.117156982421900000
+            Size.Height = 108.164154052734400000
+            Size.PlatformDefault = False
+            TabOrder = 5
+            OnClick = ImageViewerClick
+            ShowScrollBars = False
+            Viewport.Width = 297.100000000000000000
+            Viewport.Height = 108.200000000000000000
+          end
+          object ButtonsLayout: TGridPanelLayout
+            Align = Client
+            Size.Width = 384.000000000000000000
+            Size.Height = 45.021255493164060000
+            Size.PlatformDefault = False
+            TabOrder = 6
+            ColumnCollection = <
+              item
+                Value = 20.183945601614830000
+              end
+              item
+                Value = 20.014289704778190000
+              end
+              item
+                Value = 19.928037170006250000
+              end
+              item
+                Value = 19.916878016760760000
+              end
+              item
+                Value = 19.956849506839980000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = ActiveButton
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = InactiveButton
+                Row = 0
+              end
+              item
+                Column = 2
+                Control = StopButton
+                Row = 0
+              end
+              item
+                Column = 3
+                Control = CleanButton
+                Row = 0
+              end
+              item
+                Column = 4
+                Control = SaveButton
+                Row = 0
+              end>
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end
+              item
+                SizeStyle = Auto
+              end>
+            object ActiveButton: TButton
+              Align = Client
+              Size.Width = 77.506347656250000000
+              Size.Height = 45.021255493164060000
+              Size.PlatformDefault = False
+              TabOrder = 4
+              Text = 'Activo'
+              OnClick = ActiveButtonClick
+            end
+            object InactiveButton: TButton
+              Align = Client
+              Size.Width = 76.854873657226560000
+              Size.Height = 45.021255493164060000
+              Size.PlatformDefault = False
+              TabOrder = 3
+              Text = 'Inactivo'
+              OnClick = InactiveButtonClick
+            end
+            object StopButton: TButton
+              Align = Client
+              Size.Width = 76.523666381835940000
+              Size.Height = 45.021255493164060000
+              Size.PlatformDefault = False
+              TabOrder = 2
+              Text = 'Parada'
+              OnClick = StopButtonClick
+            end
+            object CleanButton: TButton
+              Align = Client
+              Size.Width = 76.480804443359380000
+              Size.Height = 45.021255493164060000
+              Size.PlatformDefault = False
+              TabOrder = 1
+              Text = 'Limpiar'
+              OnClick = CleanButtonClick
+            end
+            object SaveButton: TButton
+              Align = Client
+              Size.Width = 76.634307861328130000
+              Size.Height = 45.021255493164060000
+              Size.PlatformDefault = False
+              TabOrder = 0
+              Text = 'Guardar'
+              OnClick = SaveButtonClick
+            end
+          end
+          object PointCountLabel: TLabel
+            Align = Client
+            Size.Width = 384.000000000000000000
+            Size.Height = 27.278823852539060000
+            Size.PlatformDefault = False
+            TextSettings.HorzAlign = Center
+            Text = '0 puntos recolectados'
+            TabOrder = 7
+          end
+        end
+        object MapView: TMapView
+          Align = Client
+          Size.Width = 384.000000000000000000
+          Size.Height = 188.253814697265600000
+          Size.PlatformDefault = False
+          object Camera1: TCamera
+            AngleOfView = 45.000000000000000000
+            Position.Z = -5.000000000000000000
+            Width = 1.000000000000000000
+            Height = 1.000000000000000000
+            Depth = 1.000000000000000000
+          end
         end
       end
-      object PointCountLabel: TLabel
-        Align = Client
-        Size.Width = 384.000000000000000000
-        Size.Height = 30.122802734375000000
-        Size.PlatformDefault = False
-        TextSettings.HorzAlign = Center
-        Text = '0 puntos recolectados'
-        TabOrder = 7
-      end
     end
-    object MapView: TMapView
-      Align = Client
-      Size.Width = 384.000000000000000000
-      Size.Height = 207.880279541015600000
+    object TabItem2: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = True
+      Size.Width = 192.000000000000000000
+      Size.Height = 49.000000000000000000
       Size.PlatformDefault = False
-      object Camera1: TCamera
-        AngleOfView = 45.000000000000000000
-        Position.Z = -5.000000000000000000
-        Width = 1.000000000000000000
-        Height = 1.000000000000000000
-        Depth = 1.000000000000000000
+      StyleLookup = 'tabitemcontacts'
+      TabOrder = 0
+      Text = 'Consultar'
+      ExplicitSize.cx = 50.000000000000000000
+      ExplicitSize.cy = 49.000000000000000000
+      object gridRoutes: TStringGrid
+        Align = Client
+        CanFocus = True
+        ClipChildren = True
+        Size.Width = 384.000000000000000000
+        Size.Height = 470.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        Viewport.Width = 379.000000000000000000
+        Viewport.Height = 433.000000000000000000
+        object StringColumn1: TStringColumn
+          Header = 'Ruta'
+          Size.Width = 145.000000000000000000
+        end
+        object StringColumn2: TStringColumn
+          Header = 'Zona'
+          Size.Width = 143.000000000000000000
+        end
+        object StringColumn3: TStringColumn
+          Header = 'No. Puntos'
+        end
+      end
+      object btnUpdate: TButton
+        Anchors = [akRight, akBottom]
+        Position.X = 264.000000000000000000
+        Position.Y = 424.000000000000000000
+        Size.Width = 113.000000000000000000
+        Size.Height = 33.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Text = 'Actualizar'
+        OnClick = btnUpdateClick
       end
     end
   end

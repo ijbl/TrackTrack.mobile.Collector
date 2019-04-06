@@ -23,6 +23,7 @@ type
     function GetZoneById(const ZoneId: TID): TZone;
     function ExistsPointsForRoute(const RouteId: TID): Boolean;
     procedure SaveRoutePoints(const RoutePoints: array of TRoutePoint; const RouteStops: array of TRouteStop);
+    function GetRoutePointsCount(const RouteId: TID): Integer;
   end;
 
 implementation
@@ -87,6 +88,19 @@ end;
 function TTrackTrackInterface.GetAllRoutes: TRoute;
 begin
   Result := TRoute.CreateAndFillPrepare(Self.FClient, 'name,zone', '', []);
+end;
+
+function TTrackTrackInterface.GetRoutePointsCount(const RouteId: TID): Integer;
+var
+  Rs: TObjectList;
+begin
+  Rs := Self.FClient.RetrieveList(TRoutePoint, 'id', 'route=?', [RouteId]);
+  try
+    Result := Rs.Count;
+  finally
+    Rs.Clear;
+    Rs.Free;
+  end;
 end;
 
 function TTrackTrackInterface.GetZoneById(const ZoneId: TID): TZone;

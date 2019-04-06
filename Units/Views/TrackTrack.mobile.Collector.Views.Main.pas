@@ -10,7 +10,8 @@ uses
   FMX.TabControl, System.Messaging, FMX.MediaLibrary, FMX.Platform,
   System.Math.Vectors, FMX.Controls3D, System.Actions, FMX.ActnList,
   FMX.StdActns, FMX.MediaLibrary.Actions, TrackTrack.mobile.Collector.Interfaces.TrackTrack,
-  TrackTrack.mobile.Collector.Interfaces.Proxy.TrackTrack, SynCrossPlatformREST;
+  TrackTrack.mobile.Collector.Interfaces.Proxy.TrackTrack, SynCrossPlatformREST,
+  System.Rtti, FMX.Grid.Style, FMX.ScrollBox, FMX.Grid;
 
 type
   TFrmMain = class(TForm)
@@ -36,6 +37,14 @@ type
     Camera1: TCamera;
     ActionList: TActionList;
     TakePhotoFromCameraAction: TTakePhotoFromCameraAction;
+    TabControl1: TTabControl;
+    TabItem1: TTabItem;
+    TabItem2: TTabItem;
+    btnUpdate: TButton;
+    gridRoutes: TStringGrid;
+    StringColumn1: TStringColumn;
+    StringColumn2: TStringColumn;
+    StringColumn3: TStringColumn;
     procedure ActiveButtonClick(Sender: TObject);
     procedure StopButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -47,6 +56,7 @@ type
     procedure ImageViewerClick(Sender: TObject);
     procedure SaveButtonClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure btnUpdateClick(Sender: TObject);
   private
     FTrackTrack: TTrackTrackInterface;
     FPointList: array of TRoutePoint;
@@ -87,6 +97,36 @@ begin
     Self.ActiveButton.Enabled := False;
     Self.InactiveButton.Enabled := True;
     Self.LocationSensor.Active := True;
+  end;
+end;
+
+procedure TFrmMain.btnUpdateClick(Sender: TObject);
+var
+  Route: TRoute;
+  Zone: TZone;
+  RowCount: Integer;
+begin
+  Route := Self.FTrackTrack.GetAllRoutes;
+  try
+    Self.comboRoute.Clear;
+    RowCount := 0;
+    while Route.FillOne do
+    begin
+      Inc(RowCount);
+      Self.gridRoutes.RowCount := RowCount;
+      Self.gridRoutes.Cells[0, RowCount - 1] := Route.Name;
+
+      Zone := Self.FTrackTrack.GetZoneById(Route.Zone);
+      try
+        Self.gridRoutes.Cells[1, RowCount - 1] := Zone.Name;
+      finally
+        Zone.Free;
+      end;
+
+      Self.gridRoutes.Cells[2, RowCount - 1] := Self.FTrackTrack.GetRoutePointsCount(Route.ID).ToString;
+    end;
+  finally
+    Route.Free;
   end;
 end;
 
